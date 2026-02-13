@@ -1,0 +1,11 @@
+{
+    "allowed_formats": [
+        "png",
+        "svg"
+    ],
+    "files": [
+        "trt_professional_logo.svg",
+        "trt_texas_logo.png",
+        "barbie_doll.png"
+    ]
+}
