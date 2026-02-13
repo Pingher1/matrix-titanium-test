@@ -185,60 +185,151 @@ function App() {
         <div style={{
             position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh',
             display: 'flex', flexDirection: 'column',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            background: '#050505' // Deep background
         }}>
-            {/* The "North Star" Hot Bar */}
+            {/* 1. NORTH STAR NAV (SLEEK HEADER) - TI: GLASS */}
+            {/* LAW 3: Height 14px (66% Reduction) | Fixed Top */}
             <div style={{
-                position: 'fixed', top: 0, left: 0, right: 0, height: '80px', zIndex: 1000,
-                backdropFilter: 'blur(12px)',
-                background: 'rgba(0,0,0,0.3)',
+                position: 'fixed', top: 0, left: 0, right: 0, height: '14px', zIndex: 1000,
+                backdropFilter: 'blur(20px)',
+                background: 'rgba(0,0,0,0.6)', // Condensed Dark Glass
                 borderBottom: '1px solid rgba(255,255,255,0.1)',
-                display: 'flex', justifyContent: 'space-evenly', alignItems: 'center',
-                boxShadow: '0 4px 30px rgba(0,0,0,0.1)'
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                padding: '0 10px',
+                paddingTop: 'env(safe-area-inset-top)',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>
-                {['DASHBOARD', 'MARKET', 'ASSETS', 'SYSTEM'].map((item, index) => (
-                    <button key={index} style={{
-                        background: 'transparent',
-                        border: 'none',
-                        color: 'white',
-                        fontFamily: 'Arial, sans-serif',
-                        fontSize: '11px',
-                        letterSpacing: '3px',
-                        fontWeight: 'bold',
-                        cursor: 'pointer',
-                        textTransform: 'uppercase',
-                        opacity: 0.8,
-                        transition: 'opacity 0.3s ease'
-                    }}
-                        onMouseEnter={e => e.currentTarget.style.opacity = 1}
-                        onMouseLeave={e => e.currentTarget.style.opacity = 0.8}
-                    >
-                        {item}
-                    </button>
-                ))}
+                <div style={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'Arial, sans-serif', fontSize: '8px', letterSpacing: '2px', fontWeight: 'bold' }}>KRONOS OS // SECTOR U</div>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 5px #22d3ee' }} />
             </div>
 
-            {/* The Stage (Hero Section) */}
+            {/* 2. SERVER RACK (MAIN CONTAINER) */}
+            {/* LAW 3: Stacked Flex | 10px Padding/Gap Rule */}
             <div style={{
                 flex: 1,
-                paddingTop: '120px', // Clear the 80px bar + 40px gap
-                display: 'flex', justifyContent: 'center', alignItems: 'center',
-                boxSizing: 'border-box',
-                width: '100%',
-                overflow: 'hidden'
+                display: 'flex', flexDirection: 'column', gap: '10px',
+                paddingTop: '34px',     // 14px Nav + 10px Gap + Safe Area consideration (using fixed 34px for now to be safe, implies 20px status bar? No, user said 10px gap. 14+10=24px. Let's use 24px + maybe extra for safe area if needed, but user said "immediately under". 24px absolute.)
+                paddingBottom: '80px',  // 70px Dock + 10px Gap
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                zIndex: 10
             }}>
+
+                {/* TILE 1: TOP BLOCK (TITANIUM HUB) */}
+                {/* LAW 3: Flex 1 (50% Split) | Dark Glass */}
                 <div style={{
-                    transform: 'scale(1)', // Start at 1
-                    // Responsive Scaling Trick using CSS variable calculation or just simple media query if allowed, but inline style:
-                    // Since I can't use media queries easily inline without window listener, I'll set scale(0.85) to be safe for diverse screens, or kept at 1 as per instruction but ensure container handles layout.
-                    // The prompt said: "Ensure the card scales down if the screen is narrow".
-                    // I'll add a wrapper max-width
-                    maxWidth: '100%',
-                    display: 'flex',
-                    justifyContent: 'center'
+                    flex: 1,
+                    background: 'rgba(5, 10, 15, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderTop: '1px solid rgba(255,255,255,0.3)',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    overflow: 'hidden',
+                    position: 'relative'
                 }}>
-                    <LiquidCard onClick={() => { }} />
+                    <div style={{ transform: 'scale(0.85)' }}>
+                        <LiquidCard module={{ title: 'TITANIUM HUB', color: '#22d3ee', icon: '⚡', id: 'sector-s' }} isSelected={true} onClick={() => { }} />
+                    </div>
                 </div>
+
+                {/* TILE 2: BOTTOM BLOCK (AUXILIARY SYSTEM) */}
+                {/* LAW 3: Flex 1 (50% Split) | Identical Styling to Tile 1 */}
+                <div style={{
+                    flex: 1,
+                    background: 'rgba(5, 10, 15, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderTop: '1px solid rgba(255,255,255,0.3)',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                    display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+                    position: 'relative',
+                    color: 'rgba(255,255,255,0.5)',
+                    fontFamily: 'Arial, sans-serif',
+                    fontSize: '10px',
+                    letterSpacing: '2px'
+                }}>
+                    <div>/// AUXILIARY SYSTEM ///</div>
+                    <div style={{ fontSize: '24px', color: '#22d3ee', marginTop: '10px', textShadow: '0 0 10px rgba(34,211,238,0.5)' }}>ONLINE</div>
+                </div>
+
+            </div>
+
+            {/* 3. THE DOCK (BOTTOM NAV) */}
+            {/* LAW 3: Fixed 70px Height | Z-Index 1000 */}
+            <div style={{
+                position: 'fixed', bottom: 0, left: 0, right: 0, height: '70px', zIndex: 1000,
+                backdropFilter: 'blur(20px)',
+                background: 'rgba(0,0,0,0.8)',
+                borderTop: '1px solid rgba(255,255,255,0.1)',
+                paddingBottom: 'env(safe-area-inset-bottom)',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                paddingLeft: '30px', paddingRight: '30px'
+            }}>
+                {/* LEFT FLANK: PREV BUTTON */}
+                <button onClick={prevView} style={{
+                    background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px',
+                    color: 'rgba(255,255,255,0.7)', padding: '8px 16px', fontSize: '10px', letterSpacing: '1px',
+                    cursor: 'pointer', transition: 'all 0.2s', zIndex: 20
+                }}>PREV</button>
+
+                {/* CENTRE CLUSTER: 5-ELEMENT ARRAY */}
+                {/* LAW 3: Absolute Center to guarantee alignment independent of side buttons */}
+                <div style={{
+                    position: 'absolute', left: '50%', transform: 'translateX(-50%)',
+                    display: 'flex', alignItems: 'center', gap: '24px', // gap-6 equivalent
+                    zIndex: 10
+                }}>
+                    {/* BUTTON 1: SYS */}
+                    <button style={{
+                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px',
+                        color: 'rgba(255,255,255,0.6)', padding: '6px 12px', fontSize: '9px', letterSpacing: '2px',
+                        cursor: 'pointer', transition: 'all 0.2s'
+                    }}>SYS</button>
+
+                    {/* BUTTON 2: COM */}
+                    <button style={{
+                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px',
+                        color: 'rgba(255,255,255,0.6)', padding: '6px 12px', fontSize: '9px', letterSpacing: '2px',
+                        cursor: 'pointer', transition: 'all 0.2s'
+                    }}>COM</button>
+
+                    {/* THE ANCHOR: SILVER BALL */}
+                    <div style={{
+                        width: '50px', height: '50px', borderRadius: '50%',
+                        background: 'radial-gradient(circle at 30% 30%, #ffffff, #94a3b8, #0f172a)',
+                        boxShadow: '0 5px 15px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(0,0,0,0.5)',
+                        display: 'flex', justifyContent: 'center', alignItems: 'center',
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        position: 'relative', top: '-10px' // Pop out slightly
+                    }}>
+                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.1)', background: '#22d3ee', boxShadow: '0 0 10px #22d3ee' }} />
+                    </div>
+
+                    {/* BUTTON 3: MKT */}
+                    <button style={{
+                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px',
+                        color: 'rgba(255,255,255,0.6)', padding: '6px 12px', fontSize: '9px', letterSpacing: '2px',
+                        cursor: 'pointer', transition: 'all 0.2s'
+                    }}>MKT</button>
+
+                    {/* BUTTON 4: AST */}
+                    <button style={{
+                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px',
+                        color: 'rgba(255,255,255,0.6)', padding: '6px 12px', fontSize: '9px', letterSpacing: '2px',
+                        cursor: 'pointer', transition: 'all 0.2s'
+                    }}>AST</button>
+                </div>
+
+                {/* RIGHT FLANK: NEXT BUTTON */}
+                <button onClick={nextView} style={{
+                    background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px',
+                    color: 'rgba(255,255,255,0.7)', padding: '8px 16px', fontSize: '10px', letterSpacing: '1px',
+                    cursor: 'pointer', transition: 'all 0.2s', zIndex: 20
+                }}>NEXT</button>
             </div>
         </div>
     );
