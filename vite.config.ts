@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: 'client/dist'
+      outDir: 'dist'
     },
     server: {
       port: 3000, // Node Alpha (Genesis Hub)
