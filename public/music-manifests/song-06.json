@@ -1,0 +1,16 @@
+{
+ "id": "song-06",
+ "title": "Demo Song 06",
+ "artist": "Demo Artist",
+ "audioUrl": "/music/song-06.mp3",
+ "durationMs": 60000,
+ "cover": "/music/song-06.jpg",
+ "lyricMarks": [
+ { "time": 0, "value": "La", "index": 0 },
+ { "time": 400, "value": "la", "index": 1 },
+ { "time": 800, "value": "la", "index": 2 },
+ { "time": 1200, "value": "la", "index": 3 },
+ { "time": 1600, "value": "la", "index": 4 },
+ { "time": 3200, "value": "chorus", "index": 5 }
+ ]
+}

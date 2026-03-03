@@ -1,0 +1,54 @@
+version: "3.8"
+
+# This file configures the 1:1 Server Mirroring Redundancy
+# It allows Server A and Server B to run identical stacks
+
+services:
+  # The Heavy-Lifting Backend Node API
+  kronos-hub-api:
+    image: node:20-alpine
+    container_name: kronos-api-mirror
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080" # The main Matrix Entrance / API endpoint
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - MESHY_API_KEY=${MESHY_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    command: npm run dev # Use `npm run start` or TS compilation if built
+
+  # The High-Speed In-Memory Job Cache
+  redis-cache:
+    image: redis:7-alpine
+    container_name: kronos-redis-mirror
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --save 60 1 --loglevel warning
+
+  # WebRTC CoTURN For Voice Redundancy
+  coturn-relay:
+    image: coturn/coturn
+    container_name: kronos-turn-mirror
+    network_mode: host
+    environment:
+      - TURN_PORT=3478
+      - TURN_SECRET=${TURN_SHARED_SECRET}
+      - TURN_SERVER_NAME=kronos-mirror.local
+      - TURN_REALM=kronos.network
+    command:
+      - --log-file=stdout
+      - --lt-cred-mech
+      - --user=system:admin
+
+volumes:
+  redis_data:

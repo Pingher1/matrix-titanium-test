@@ -1,0 +1,6 @@
+.karaoke-line {
+ display: flex; gap: 6px; flex-wrap: wrap;
+}
+.karaoke-word {
+ padding: 6px 8px; border-radius: 6px;
+}

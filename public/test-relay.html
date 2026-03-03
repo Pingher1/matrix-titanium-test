@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h3>WebRTC TURN Relay Validator</h3>
+  <button onclick="startTest()">Check for Relay Candidate</button>
+  <pre id="logs"></pre>
+
+  <script>
+    async function startTest() {
+      const logs = document.getElementById('logs');
+      logs.textContent = "Fetching credentials...\n";
+      
+      const res = await fetch('/api/turn-credentials?user=test_v', {
+        headers: { Authorization: "Bearer test-token" }
+      });
+      const creds = await res.json();
+      
+      const pc = new RTCPeerConnection({
+        iceServers: [{ urls: "stun:stun.l.google.com:19302" }, creds]
+      });
+
+      pc.onicecandidate = (e) => {
+        if (e.candidate) {
+          logs.textContent += `Found candidate: ${e.candidate.candidate}\n`;
+          if (e.candidate.candidate.includes("typ relay")) {
+            logs.textContent += "✅ SUCCESS: TURN Relay candidate found!\n";
+          }
+        }
+      };
+      pc.createOffer().then(offer => pc.setLocalDescription(offer));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+    "id": "sample-01",
+    "title": "Welcome to the KRONOS Forge",
+    "pages": [
+        {
+            "id": "page-1",
+            "text": "Welcome to the forge.",
+            "audioUrl": ""
+        }
+    ]
+}

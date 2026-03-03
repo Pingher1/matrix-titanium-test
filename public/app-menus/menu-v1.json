@@ -1,0 +1,102 @@
+{
+    "suites": [
+        {
+            "id": "avatar-studio",
+            "title": "Avatar Studio",
+            "icon": "User",
+            "defaultRoute": "/avatar",
+            "items": [
+                {
+                    "id": "dashboard",
+                    "title": "Dashboard",
+                    "route": "/avatar",
+                    "component": "AvatarDashboard"
+                },
+                {
+                    "id": "catalog",
+                    "title": "Asset Catalog",
+                    "route": "/avatar/assets",
+                    "component": "CatalogGrid"
+                }
+            ]
+        },
+        {
+            "id": "storybook",
+            "title": "Storybook Library",
+            "icon": "Book",
+            "defaultRoute": "/stories",
+            "items": [
+                {
+                    "id": "library",
+                    "title": "Library",
+                    "route": "/stories/library",
+                    "component": "StoryLibrary"
+                },
+                {
+                    "id": "editor",
+                    "title": "Editor",
+                    "route": "/stories/editor",
+                    "component": "StorybookEditor"
+                },
+                {
+                    "id": "player",
+                    "title": "Player",
+                    "route": "/stories/player",
+                    "component": "StorybookPlayer"
+                }
+            ]
+        },
+        {
+            "id": "barbieworld",
+            "title": "Barbie World",
+            "icon": "Sparkles",
+            "defaultRoute": "/barbieworld",
+            "items": [
+                {
+                    "id": "dreamhouse",
+                    "title": "Dreamhouse",
+                    "route": "/barbieworld/dreamhouse",
+                    "component": "Dreamhouse"
+                },
+                {
+                    "id": "rooms",
+                    "title": "Rooms",
+                    "route": "/barbieworld/rooms",
+                    "component": "RoomsCatalog"
+                },
+                {
+                    "id": "toys",
+                    "title": "Toys & Accessories",
+                    "route": "/barbieworld/toys",
+                    "component": "CatalogGrid"
+                },
+                {
+                    "id": "shop",
+                    "title": "Shop",
+                    "route": "/barbieworld/shop",
+                    "component": "Shop"
+                }
+            ]
+        },
+        {
+            "id": "kronos",
+            "title": "Kronos Architect",
+            "icon": "Cpu",
+            "defaultRoute": "/kronos",
+            "items": [
+                {
+                    "id": "kronos-assistant",
+                    "title": "Kronos Assistant",
+                    "route": "/kronos",
+                    "component": "KronosAssistantPanel"
+                },
+                {
+                    "id": "modules",
+                    "title": "Modules",
+                    "route": "/admin/modules",
+                    "component": "ModulesDashboard"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,84 @@
+name: Build, Upload to S3, Sign & Publish Module
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-upload-publish:
+        runs-on: ubuntu-latest
+        timeout-minutes: 90
+        env:
+            AWS_REGION: ${{ secrets.AWS_REGION }}
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ${{ secrets.AWS_REGION }}
+
+            - name: Install root deps
+              run: yarn install --frozen-lockfile
+
+            - name: Build client
+              working-directory: client
+              run: |
+                  yarn install --frozen-lockfile
+                  yarn build
+
+            - name: Build server
+              working-directory: server
+              run: |
+                  yarn install --frozen-lockfile
+                  yarn build
+
+            - name: Install S3/KMS SDKs for compute script
+              run: yarn add @aws-sdk/client-s3 @aws-sdk/client-kms
+
+            - name: Generate manifest and upload assets to S3 (and sign with KMS)
+              run: |
+                  node ./compute_manifest_hashes_upload.cjs --s3Bucket ${{ secrets.S3_BUCKET }} --prefix modules --moduleId ${{ github.repository }} --version ${{ github.sha }} --kmsKeyArn ${{ secrets.KMS_KEY_ARN }}
+              env:
+                  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+                  KMS_KEY_ARN: ${{ secrets.KMS_KEY_ARN }}
+
+            - name: Prepare module zip
+              run: |
+                  TIMESTAMP=$(date -u +"%Y%m%dT%H%M%SZ")
+                  MODULE_DIR=$(ls -td /tmp/module-upload-* | head -n 1)
+                  ZIP_PATH=/tmp/kronos-module-${TIMESTAMP}.zip
+                  cd "$MODULE_DIR"
+                  zip -r "$ZIP_PATH" .
+                  echo "::set-output name=zip::$ZIP_PATH"
+              id: zip
+
+            - name: Publish module to Kronos
+              env:
+                  KRONOS_URL: ${{ secrets.KRONOS_URL }}
+                  KRONOS_API_KEY: ${{ secrets.KRONOS_API_KEY }}
+              run: |
+                  MODULE_DIR=$(ls -td /tmp/module-upload-* | head -n 1)
+                  node ./kronos-publish.js "$MODULE_DIR" "$KRONOS_URL" "$KRONOS_API_KEY"
+
+            - name: Upload artifacts (module zip + manifest)
+              uses: actions/upload-artifact@v4
+              with:
+                  name: kronos-module-artifacts
+                  path: |
+                      /tmp/kronos-module-*.zip
+                      /tmp/module-upload-*/manifest.json
+                      /tmp/module-upload-*/manifest.sig
