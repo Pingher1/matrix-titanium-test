@@ -744,6 +744,14 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     app.use(express.static("dist"));
+    // Wildcard fallback for React Router DOM in production
+    app.get('*', (req, res) => {
+      // Ignore API routes so they return 404 naturally
+      if (req.path.startsWith('/api')) {
+        return res.status(404).json({ error: "API endpoint not found" });
+      }
+      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+    });
   }
 
   // --- PHASE 17 API SIGNALING (Zero-Dependency WebRTC Stub) ---

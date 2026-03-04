@@ -13,6 +13,11 @@ const TutorialEditor: React.FC<TutorialEditorProps> = ({ onClose }) => {
     const [recordScope, setRecordScope] = useState<'CURRENT' | 'FULL'>('CURRENT');
     const [outputFormat, setOutputFormat] = useState<'WebM'>('WebM');
     const [isSplit, setIsSplit] = useState(false);
+    const [workspaceMode, setWorkspaceMode] = useState<'WEB' | 'VIDEO'>('WEB');
+
+    // Phase 2 Post-Production Dubbing State
+    const [masterVideoBlob, setMasterVideoBlob] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Physical Hardware Recording State Logic
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -42,6 +47,15 @@ const TutorialEditor: React.FC<TutorialEditorProps> = ({ onClose }) => {
             formatted = 'https://' + formatted;
         }
         setTargetUrl(formatted);
+        setMasterVideoBlob(null); // Clear video if routing back to web
+    };
+
+    const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            setMasterVideoBlob(url);
+        }
     };
 
     const handleToggleRecord = async () => {
@@ -120,66 +134,120 @@ const TutorialEditor: React.FC<TutorialEditorProps> = ({ onClose }) => {
                 We'll apply some padding to sit beneath the Gateway's Northstar bar. */}
 
             <div className="w-full flex-1 pt-16 pb-[150px] px-6 flex flex-col gap-4">
-                {/* TOOLBAR FOR BROWSER INJECTION */}
-                <div className="w-full h-12 bg-black/50 border border-[#00ff41]/30 rounded-lg flex items-center px-4 gap-4 shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-                    <div className="flex items-center gap-2 text-red-500/70 text-xs font-mono">
-                        <ShieldAlert className="w-4 h-4" />
-                        <span>X-FRAME BYPASS REQUIRED FOR CRM</span>
-                    </div>
-
-                    <div className="flex-1 flex gap-2">
-                        <input
-                            type="text"
-                            className="flex-1 bg-[#111] border border-gray-700 rounded px-3 py-1 text-sm text-[#00ff41] focus:outline-none focus:border-[#00ff41]"
-                            value={targetUrl}
-                            onChange={(e) => setTargetUrl(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleLoadTarget()}
-                        />
+                {/* WORKSPACE MODE TOGGLE & TOOLBAR */}
+                <div className="w-full bg-black/50 border border-[#00ff41]/30 rounded-lg flex flex-col shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)] overflow-hidden">
+                    {/* Mode Switcher Tabs */}
+                    <div className="flex border-b border-[#00ff41]/20">
                         <button
-                            onClick={handleLoadTarget}
-                            className="px-4 py-1 bg-[#00ff41]/20 border border-[#00ff41] text-[#00ff41] rounded text-xs font-bold uppercase hover:bg-[#00ff41]/40 transition-colors"
+                            onClick={() => { setWorkspaceMode('WEB'); setMasterVideoBlob(null); }}
+                            className={`flex-1 py-2 text-xs font-bold font-mono tracking-widest transition-colors ${workspaceMode === 'WEB' ? 'bg-[#00ff41]/10 text-[#00ff41] border-b-2 border-[#00ff41]' : 'text-gray-500 hover:text-gray-300 hover:bg-[#111]'}`}
                         >
-                            LOAD TARGET
+                            🌐 LIVE WEB TARGET
                         </button>
-                        <a
-                            href={targetUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-4 py-1 bg-[#111] border border-gray-600 text-gray-400 rounded text-xs font-bold uppercase hover:border-yellow-500 hover:text-yellow-500 flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                            title="Bypass Security: Open in a new isolated browser tab"
+                        <button
+                            onClick={() => { setWorkspaceMode('VIDEO'); setTargetUrl(''); }}
+                            className={`flex-1 py-2 text-xs font-bold font-mono tracking-widest transition-colors ${workspaceMode === 'VIDEO' ? 'bg-[#00ff41]/10 text-[#00ff41] border-b-2 border-[#00ff41]' : 'text-gray-500 hover:text-gray-300 hover:bg-[#111]'}`}
                         >
-                            POP-OUT <ExternalLink className="w-3 h-3" />
-                        </a>
+                            🎬 POST-PRODUCTION DUBBING
+                        </button>
                     </div>
 
-                    <button
-                        onClick={() => setIsSplit(!isSplit)}
-                        className={`p-2 rounded border transition-colors ${isSplit ? 'bg-[#00ff41]/20 border-[#00ff41] text-[#00ff41]' : 'bg-transparent border-gray-700 text-gray-500 hover:text-white'}`}
-                        title="Toggle Split Screen"
-                    >
-                        <SplitSquareHorizontal className="w-4 h-4" />
-                    </button>
+                    {/* Active Toolbar Tools */}
+                    <div className="flex items-center px-4 py-2 gap-4 min-h-[48px]">
+                        {workspaceMode === 'WEB' ? (
+                            <>
+                                <div className="flex items-center gap-2 text-red-500/70 text-xs font-mono shrink-0">
+                                    <ShieldAlert className="w-4 h-4" />
+                                    <span>X-FRAME BYPASS REQUIRED FOR CRM</span>
+                                </div>
+                                <div className="flex-1 flex gap-2">
+                                    <input
+                                        type="text"
+                                        className="flex-1 bg-[#111] border border-gray-700 rounded px-3 py-1 text-sm text-[#00ff41] focus:outline-none focus:border-[#00ff41] font-mono"
+                                        value={targetUrl}
+                                        onChange={(e) => setTargetUrl(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleLoadTarget()}
+                                        placeholder="https://followupboss.com"
+                                    />
+                                    <button
+                                        onClick={handleLoadTarget}
+                                        className="px-4 py-1 bg-[#00ff41]/20 border border-[#00ff41] text-[#00ff41] rounded text-xs font-bold uppercase hover:bg-[#00ff41]/40 transition-colors"
+                                    >
+                                        LOAD TARGET
+                                    </button>
+                                    <a
+                                        href={targetUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-4 py-1 bg-[#111] border border-gray-600 text-gray-400 rounded text-xs font-bold uppercase hover:border-yellow-500 hover:text-yellow-500 flex items-center justify-center gap-2 transition-colors cursor-pointer whitespace-nowrap"
+                                        title="Bypass Security: Open in a new isolated browser tab"
+                                    >
+                                        POP-OUT <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="flex-1 flex items-center justify-center gap-4">
+                                <span className="text-gray-400 font-mono text-xs">Load raw footage for timeline scrubbing and caption burning:</span>
+                                <button
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="px-8 py-1.5 bg-gray-800 border border-gray-600 text-white rounded text-xs font-bold uppercase hover:border-[#00ff41] hover:text-[#00ff41] transition-all whitespace-nowrap shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+                                    title="Ingest raw video file for Post-Production Dubbing"
+                                >
+                                    INGEST LOCAL .WEBM
+                                </button>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    accept="video/*"
+                                    className="hidden"
+                                    onChange={handleVideoUpload}
+                                />
+                            </div>
+                        )}
 
-                    <button onClick={onClose} className="p-2 text-gray-500 hover:text-red-500 transition-colors">
-                        ✕
-                    </button>
+                        {/* Window Controls (Always visible on far right) */}
+                        <div className="flex items-center gap-2 shrink-0 border-l border-gray-800 pl-4">
+                            <button
+                                onClick={() => setIsSplit(!isSplit)}
+                                className={`p-2 rounded border transition-colors ${isSplit ? 'bg-[#00ff41]/20 border-[#00ff41] text-[#00ff41]' : 'bg-transparent border-gray-700 text-gray-500 hover:text-white'}`}
+                                title="Toggle Split Screen"
+                            >
+                                <SplitSquareHorizontal className="w-4 h-4" />
+                            </button>
+                            <button onClick={onClose} className="p-2 text-gray-500 hover:text-red-500 transition-colors">
+                                ✕
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 {/* TIER 2: ACTIVE WORKSPACE (IFrame/Browser Simulation) */}
                 <div className="flex-1 w-full flex gap-4 overflow-hidden relative">
                     <div className="flex-[2] h-full bg-[#111] border border-gray-800 rounded-lg overflow-hidden relative group">
-                        {/* Simulated Browser Webview */}
-                        <div className="absolute inset-0 flex items-center justify-center p-8 bg-black">
-                            <iframe
-                                src={targetUrl}
-                                className="w-full h-full border-none bg-white opacity-90 grayscale"
-                                title="Kronos Primary Viewport"
-                            />
-                            {/* Overlaying a message since actual FUB will block iframe */}
-                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Target className="w-12 h-12 text-[#00ff41] mb-4 opacity-50 loop-spin" />
-                                <p className="text-[#00ff41] font-mono tracking-widest text-sm">TARGET VIEWPORT SECURED</p>
-                            </div>
+                        {/* Simulated Browser Webview or Native Video Player */}
+                        <div className="absolute inset-0 flex items-center justify-center p-8 bg-black relative">
+                            {masterVideoBlob ? (
+                                <video
+                                    src={masterVideoBlob}
+                                    controls
+                                    autoPlay
+                                    className="w-full h-full object-contain rounded-lg shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-[#00ff41]/30"
+                                />
+                            ) : (
+                                <>
+                                    <iframe
+                                        src={targetUrl}
+                                        className="w-full h-full border-none bg-white opacity-90 grayscale"
+                                        title="Kronos Primary Viewport"
+                                    />
+                                    {/* Overlaying a message since actual FUB will block iframe */}
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Target className="w-12 h-12 text-[#00ff41] mb-4 opacity-50 loop-spin" />
+                                        <p className="text-[#00ff41] font-mono tracking-widest text-sm">TARGET VIEWPORT SECURED</p>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
 
