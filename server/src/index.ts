@@ -11,6 +11,7 @@ import { processAssistantCommand } from "./assistant/commandController";
 import { apiKeyMiddleware } from "./middleware/apiKeyAuth";
 import path from "path";
 import modulesController from "./manifest/modulesController";
+import { chatController } from "./chat/chatController";
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ app.post("/api/tts/synthesize", apiKeyMiddleware, synthesizeStoryHandler);
 app.get("/api/assets/manifest", getManifestHandler);
 app.get("/api/music/manifest", getMusicManifestHandler);
 app.post("/api/assistant/command", apiKeyMiddleware, processAssistantCommand);
+app.post("/api/chat", chatController);
 
 // Internal endpoint: worker posts asset validation
 app.post("/internal/asset-validate", async (req, res) => {

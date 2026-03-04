@@ -13,13 +13,39 @@ const TestPilotGateway: React.FC = () => {
     const [input, setInput] = useState('');
     const [isWestMenuOpen, setIsWestMenuOpen] = useState(false);
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (!input.trim()) return;
-        setMessages(prev => [...prev, { role: 'user', content: input }]);
-        setTimeout(() => {
-            setMessages(prev => [...prev, { role: 'assistant', content: `Command received: ${input}. Integrating to neural net.` }]);
-        }, 1000);
-        setInput('');
+        const userCommand = input;
+        setInput(''); // Immediate UX clear
+
+        const newMessages = [...messages, { role: 'user', content: userCommand }];
+        setMessages(newMessages);
+
+        try {
+            // Keep a rolling context window of the last 6 messages
+            const contextToSend = newMessages.slice(-6).filter(m => m.role !== 'system');
+
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: contextToSend })
+            });
+
+            if (!response.ok) {
+                setMessages(prev => [...prev, { role: 'system', content: `[ERROR] Connection to primary logic core severed. CODE: ${response.status}` }]);
+                return;
+            }
+
+            const data = await response.json();
+            if (data.reply) {
+                setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+            } else {
+                setMessages(prev => [...prev, { role: 'system', content: `[ERROR] Malformed logic packet received.` }]);
+            }
+
+        } catch (error) {
+            setMessages(prev => [...prev, { role: 'system', content: `[FATAL] Terminal socket timeout. Core routing offline.` }]);
+        }
     };
 
     return (
@@ -103,9 +129,12 @@ const TestPilotGateway: React.FC = () => {
                                 <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-4 font-mono text-xs custom-scrollbar">
                                     {messages.map((m, i) => (
                                         <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                            <div className={`max-w-[85%] p-3 rounded-lg border ${m.role === 'user' ? 'bg-[#003300] border-[#00ff41]/50 text-[#00ff41]' : 'bg-[#111] border-gray-700 text-gray-300'}`}>
-                                                <span className="opacity-50 text-[10px] uppercase block mb-1">{m.role}</span>
-                                                {m.content}
+                                            <div className={`max-w-[85%] p-3 rounded-lg border shadow-lg ${m.role === 'user' ? 'bg-[#003300] border-[#00ff41]/50 text-[#00ff41]' :
+                                                m.role === 'system' ? 'bg-transparent border-none text-[#00ff41]/60 text-[10px] text-center w-full block' :
+                                                    'bg-[#111] border-gray-700 text-gray-300'
+                                                }`}>
+                                                {m.role !== 'system' && <span className="opacity-50 text-[10px] uppercase block mb-1 font-bold">{m.role}</span>}
+                                                <p className="whitespace-pre-wrap">{m.content}</p>
                                             </div>
                                         </div>
                                     ))}
