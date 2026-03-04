@@ -750,7 +750,7 @@ async function startServer() {
       if (req.path.startsWith('/api')) {
         return res.status(404).json({ error: "API endpoint not found" });
       }
-      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+      res.sendFile(path.resolve(process.cwd(), 'dist', 'index.html'));
     });
   }
 
