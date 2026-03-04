@@ -14,6 +14,15 @@ interface EcosystemNode {
 
 const NODES: EcosystemNode[] = [
     {
+        id: 'beta_carousel',
+        title: 'CHRONOS BETA',
+        description: 'The 360-degree Liquid Krystal User Hub & Ecosystem.',
+        icon: <Sparkles className="w-8 h-8" />,
+        color: '#ff7a18',
+        route: '/deck',
+        status: 'ONLINE'
+    },
+    {
         id: 'forge',
         title: 'THE FORGE',
         description: 'Primary Master Builder Lab & Asset Forge.',

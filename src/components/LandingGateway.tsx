@@ -21,7 +21,7 @@ const LandingGateway: React.FC = () => {
             <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-6 drop-shadow-2xl w-full max-w-2xl pointer-events-auto">
 
                 <button
-                    onClick={() => window.location.href = '/deck'}
+                    onClick={() => window.location.href = '/pilot'}
                     className="px-16 py-5 bg-gradient-to-r from-[#00ff41] to-[#008f11] hover:from-[#008f11] hover:to-[#00ff41] text-white font-black tracking-[0.4em] text-xl uppercase rounded-sm border-2 border-[#00ff41] shadow-[0_0_40px_rgba(0,255,65,0.6)] transition-all hover:scale-105"
                 >
                     INITIATE SHATTERED JUMP
