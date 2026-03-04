@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Box, Sparkles, BookOpen, Plus, Droplets, ShieldCheck, Cpu, Database } from 'lucide-react';
+import { Box, Sparkles, BookOpen, Plus, Droplets, ShieldCheck, Cpu, Database, Code2 } from 'lucide-react';
 
 interface EcosystemNode {
     id: string;
@@ -74,6 +74,15 @@ const NODES: EcosystemNode[] = [
         icon: <Database className="w-8 h-8" />,
         color: '#0055ff',
         route: '/admin/modules',
+        status: 'ONLINE'
+    },
+    {
+        id: 'ai_studio',
+        title: 'AI STUDIO EDITOR',
+        description: 'Native Matrix logic editor for offline Google AI Studio payloads.',
+        icon: <Code2 className="w-8 h-8" />,
+        color: '#ff2a2a',
+        route: '/editor',
         status: 'ONLINE'
     },
     {

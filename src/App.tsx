@@ -20,6 +20,7 @@ import VoiceIndicator from './components/VoiceIndicator';
 import RROTIcon from './components/RROTIcon';
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 const EliteDeck = lazy(() => import('./components/EliteDeck'));
+const ProjectEditorSuite = lazy(() => import('./components/ProjectEditorSuite'));
 import { StoryLibrary, StorybookEditor, StorybookPlayer, SkinManager, Dreamhouse, RoomsCatalog, CatalogGrid, Shop } from './components/SuitePlaceholders';
 
 function MainAppLayout() {
@@ -70,6 +71,9 @@ function AppRoutes() {
 
               {/* Publisher Route */}
               <Route path="/admin/modules" element={<ModulesDashboard />} />
+
+              {/* Native AI Studio Project Vault Editor */}
+              <Route path="/editor" element={<ProjectEditorSuite />} />
             </Route>
           </Routes>
         </Suspense>
