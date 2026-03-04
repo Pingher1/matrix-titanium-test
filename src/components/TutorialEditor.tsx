@@ -2,6 +2,12 @@ import React, { useState, useRef } from 'react';
 import { Video, Target, SplitSquareHorizontal, ShieldAlert, Disc2, Maximize2, Settings, ListPlus, ExternalLink, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface CommandStep {
+    id: string;
+    text: string;
+    timestamp: number;
+}
+
 interface TutorialEditorProps {
     onClose: () => void;
 }
@@ -24,21 +30,49 @@ const TutorialEditor: React.FC<TutorialEditorProps> = ({ onClose }) => {
     const mediaStreamRef = useRef<MediaStream | null>(null);
     const chunksRef = useRef<Blob[]>([]);
 
-    // Dummy array to simulate the FUB instructions queuing up
-    const [stepQueue, setStepQueue] = useState<string[]>([
-        "Navigate to Active Contacts.",
-        "Select target lead profile."
-    ]);
+    // Phase 2: Timestamped Array for Caption Engine
+    const [stepQueue, setStepQueue] = useState<CommandStep[]>([]);
+    const [activeCaption, setActiveCaption] = useState<string>('');
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     const handleAddStep = () => {
         if (commandSequence.trim()) {
-            setStepQueue(prev => [...prev, commandSequence]);
+            const timestamp = videoRef.current ? videoRef.current.currentTime : 0;
+            const newStep: CommandStep = {
+                id: Math.random().toString(36).substr(2, 9),
+                text: commandSequence.trim(),
+                timestamp
+            };
+
+            // Insert and sort chronologically
+            setStepQueue(prev => {
+                const updated = [...prev, newStep];
+                return updated.sort((a, b) => a.timestamp - b.timestamp);
+            });
             setCommandSequence('');
         }
     };
 
-    const handleDeleteStep = (indexToRemove: number) => {
-        setStepQueue(prev => prev.filter((_, idx) => idx !== indexToRemove));
+    const handleDeleteStep = (idToRemove: string) => {
+        setStepQueue(prev => prev.filter(step => step.id !== idToRemove));
+    };
+
+    // Time sync payload for the massive caption ticker
+    const handleTimeUpdate = () => {
+        if (!videoRef.current) return;
+        const currentTime = videoRef.current.currentTime;
+
+        let currentText = '';
+        for (let i = 0; i < stepQueue.length; i++) {
+            if (currentTime >= stepQueue[i].timestamp) {
+                // Determine if it should still be visible (timeout after 5 seconds if no next step)
+                const nextTimestamp = stepQueue[i + 1] ? stepQueue[i + 1].timestamp : stepQueue[i].timestamp + 5.0;
+                if (currentTime < nextTimestamp) {
+                    currentText = stepQueue[i].text;
+                }
+            }
+        }
+        setActiveCaption(currentText);
     };
 
     const handleLoadTarget = () => {
@@ -228,12 +262,35 @@ const TutorialEditor: React.FC<TutorialEditorProps> = ({ onClose }) => {
                         {/* Simulated Browser Webview or Native Video Player */}
                         <div className="absolute inset-0 flex items-center justify-center p-8 bg-black relative">
                             {masterVideoBlob ? (
-                                <video
-                                    src={masterVideoBlob}
-                                    controls
-                                    autoPlay
-                                    className="w-full h-full object-contain rounded-lg shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-[#00ff41]/30"
-                                />
+                                <div className="relative w-full h-full flex items-center justify-center">
+                                    <video
+                                        ref={videoRef}
+                                        src={masterVideoBlob}
+                                        controls
+                                        autoPlay
+                                        onTimeUpdate={handleTimeUpdate}
+                                        className="w-full h-full object-contain rounded-lg shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-[#00ff41]/30"
+                                    />
+                                    {/* MASSIVE HIGH-CONTRAST CAPTION TICKER OVERLAY */}
+                                    <AnimatePresence>
+                                        {activeCaption && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: 10 }}
+                                                className="absolute bottom-[10%] left-0 w-full flex justify-center pointer-events-none px-12 z-50"
+                                            >
+                                                <div className="bg-black/80 backdrop-blur-md border border-yellow-400/50 rounded-2xl py-4 px-10 shadow-[0_20px_50px_rgba(0,0,0,0.9)] max-w-4xl text-center">
+                                                    <h1 className="text-3xl md:text-5xl font-black text-white tracking-widest leading-tight drop-shadow-[0_4px_4px_rgba(0,0,0,1)] uppercase">
+                                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">
+                                                            {activeCaption}
+                                                        </span>
+                                                    </h1>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
                             ) : (
                                 <>
                                     <iframe
@@ -324,12 +381,12 @@ const TutorialEditor: React.FC<TutorialEditorProps> = ({ onClose }) => {
 
                         {/* Tiny Step Visualize bar */}
                         <div className="h-[34px] w-full bg-[#0a0a0a] rounded border border-gray-800 flex gap-2 overflow-x-auto custom-scrollbar items-center shrink-0 px-2 shrink-0">
-                            {stepQueue.map((step, idx) => (
-                                <div key={idx} className="shrink-0 bg-[#111] border border-[#00ff41]/30 py-1 pl-3 pr-2 rounded-full flex items-center gap-2 group transition-colors hover:border-red-500/50">
-                                    <span className="text-[10px] text-[#00ff41] font-black group-hover:text-red-500 transition-colors">{idx + 1}</span>
-                                    <span className="text-[10px] text-gray-400 font-mono truncate max-w-[150px]">{step}</span>
+                            {stepQueue.map((step) => (
+                                <div key={step.id} className="shrink-0 bg-[#111] border border-[#00ff41]/30 py-1 pl-3 pr-2 rounded-full flex items-center gap-2 group transition-colors hover:border-red-500/50">
+                                    <span className="text-[10px] text-blue-400 font-mono tracking-tighter">[{step.timestamp.toFixed(1)}s]</span>
+                                    <span className="text-[10px] text-gray-400 font-mono truncate max-w-[150px]">{step.text}</span>
                                     <button
-                                        onClick={() => handleDeleteStep(idx)}
+                                        onClick={() => handleDeleteStep(step.id)}
                                         className="opacity-0 group-hover:opacity-100 text-red-500 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-full p-0.5 ml-1 transition-all"
                                         title="Delete Step"
                                     >
