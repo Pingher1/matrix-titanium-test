@@ -7,7 +7,11 @@ const PRESETS = [
     { id: "city", name: "City" },
     { id: "sunset", name: "Sunset" },
     { id: "dawn", name: "Dawn" },
-    { id: "night", name: "Night" }
+    { id: "night", name: "Night" },
+    { id: "calm", name: "Calm" },
+    { id: "neon", name: "Neon" },
+    { id: "storm", name: "Storm" },
+    { id: "glitch", name: "Glitch" }
 ];
 
 export default function BackgroundSelector() {

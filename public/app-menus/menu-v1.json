@@ -4,18 +4,18 @@
             "id": "avatar-studio",
             "title": "Avatar Studio",
             "icon": "User",
-            "defaultRoute": "/avatar",
+            "defaultRoute": "/forge",
             "items": [
                 {
                     "id": "dashboard",
-                    "title": "Dashboard",
-                    "route": "/avatar",
-                    "component": "AvatarDashboard"
+                    "title": "The Forge",
+                    "route": "/forge",
+                    "component": "WorkstationLayout"
                 },
                 {
                     "id": "catalog",
                     "title": "Asset Catalog",
-                    "route": "/avatar/assets",
+                    "route": "/forge/assets",
                     "component": "CatalogGrid"
                 }
             ]
@@ -75,26 +75,6 @@
                     "title": "Shop",
                     "route": "/barbieworld/shop",
                     "component": "Shop"
-                }
-            ]
-        },
-        {
-            "id": "kronos",
-            "title": "Kronos Architect",
-            "icon": "Cpu",
-            "defaultRoute": "/kronos",
-            "items": [
-                {
-                    "id": "kronos-assistant",
-                    "title": "Kronos Assistant",
-                    "route": "/kronos",
-                    "component": "KronosAssistantPanel"
-                },
-                {
-                    "id": "modules",
-                    "title": "Modules",
-                    "route": "/admin/modules",
-                    "component": "ModulesDashboard"
                 }
             ]
         }

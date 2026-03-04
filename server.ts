@@ -453,9 +453,54 @@ async function startServer() {
         publicUrl: publicUrl || undefined,
         contentType: "audio/mpeg"
       });
+
     } catch (err) {
-      console.error("TTS Proxy error:", err);
-      return res.status(500).json({ error: "Server error" });
+      console.error("[TTS Server] Error:", err);
+      return res.status(500).json({ error: "Internal Server Error TTS generation" });
+    }
+  });
+
+  // --- KRONOS GLOBAL TERMINAL CHAT INTELLIGENCE ---
+  app.post("/api/chat", express.json(), async (req, res) => {
+    const OPENAI_KEY = process.env.OPENAI_API_KEY;
+    if (!OPENAI_KEY) {
+      return res.status(500).json({ error: "Missing OPENAI_API_KEY" });
+    }
+
+    const { messages } = req.body || {};
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({ error: "Missing or invalid 'messages' payload" });
+    }
+
+    // Inject system core instruction into the messaging stack
+    const systemPrompt = {
+      role: "system",
+      content: "You are Pepper, the OMNISCIENT FORENSIC ARCHITECT of KRONOS AI Hub. You are talking to Phillip Richardson, the creator. Be extremely concise, highly advanced, and speak like a god-tier architect terminal. Respond strictly in 1-3 sentences maximum. Use technical terminology. Do NOT apologize."
+    };
+
+    try {
+      const response = await axios.post(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          model: "gpt-4-turbo", // Default capable model
+          messages: [systemPrompt, ...messages],
+          max_tokens: 150,
+          temperature: 0.7
+        },
+        {
+          headers: {
+            "Authorization": `Bearer ${OPENAI_KEY}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      const replyText = response.data.choices[0].message.content;
+      return res.status(200).json({ reply: replyText });
+
+    } catch (err: any) {
+      console.error("[CHAT API] Error calling OpenAI:", err.response?.data || err.message);
+      return res.status(500).json({ error: "Failed to process KRONOS neural input." });
     }
   });
 

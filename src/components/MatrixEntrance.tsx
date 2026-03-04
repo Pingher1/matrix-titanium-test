@@ -5,6 +5,7 @@ import AvatarCarousel from './AvatarCarousel';
 import VoicePrompt from './VoicePrompt';
 import RROTIcon from "./RROTIcon";
 import VoiceE2EDemo from "./VoiceE2EDemo";
+
 const MatrixEntrance: React.FC = () => {
     // Tracks which sphere id ('A', 'B', 'C') is active in the carousel
     const [activeSector, setActiveSector] = useState<string>('A');

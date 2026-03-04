@@ -8,12 +8,16 @@ type Props = {
     skinColor: string;
     clothingKey: string | null;
     activeAnimation: string | null;
+    accessoryId?: string | null;
 };
 
-export default function ModelLoader({ modelUrl, skinColor, clothingKey, activeAnimation }: Props) {
+import AccessoryManager from "./AccessoryManager";
+
+export default function ModelLoader({ modelUrl, skinColor, clothingKey, activeAnimation, accessoryId }: Props) {
     const gltf = useGLTF(modelUrl) as any;
     const groupRef = useRef<Group>(null);
     const { actions, mixer } = useAnimations(gltf.animations, groupRef);
+    const [headBone, setHeadBone] = React.useState<any>(null);
 
     useEffect(() => {
         if (!gltf) return;
@@ -133,10 +137,18 @@ export default function ModelLoader({ modelUrl, skinColor, clothingKey, activeAn
                 obj.castShadow = true;
                 obj.receiveShadow = true;
             }
+            if (obj.isBone && (obj.name.toLowerCase().includes('head') || obj.name.toLowerCase() === 'mixamorighead')) {
+                setHeadBone(obj);
+            }
         });
     }, [gltf]);
 
-    return <primitive ref={groupRef} object={gltf.scene} dispose={null} />;
+    return (
+        <group ref={groupRef}>
+            <primitive object={gltf.scene} dispose={null} />
+            {headBone && <AccessoryManager accessoryId={accessoryId || null} parentBone={headBone} />}
+        </group>
+    );
 }
 
 // Expose preload so Suspense works correctly

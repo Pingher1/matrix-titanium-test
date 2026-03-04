@@ -22,8 +22,9 @@ import {
 
 type ClipEntry = { type: "clip"; name: string; action?: any };
 type ProcEntry = { type: "procedural"; id: string; desc: string };
+type DynEntry = { type: "dynamic"; mixer: any; clip: any };
 
-const registry = new Map<string, ClipEntry | ProcEntry>();
+const registry = new Map<string, ClipEntry | ProcEntry | DynEntry>();
 
 /* helper: find node by many common name variants */
 function findNode(root: Object3D | null, names: string[]): Object3D | null {
@@ -71,6 +72,13 @@ export const animationRegistry = {
     register: (name: string, entry?: any) => registry.set(name, entry || { type: "clip", name }),
     registerClip: (name: string) => registry.set(name, { type: "clip", name }),
     defineProcedural: (id: string, desc: string) => registry.set(id, { type: "procedural", id, desc }),
+    registerDynamic: (key: string, mixer: any, clip: any) => registry.set(key, { type: "dynamic", mixer, clip }),
+    playDynamic: (key: string) => {
+        const entry = registry.get(key) as DynEntry;
+        if (entry && entry.type === "dynamic") {
+            entry.mixer.clipAction(entry.clip).reset().fadeIn(0.2).play();
+        }
+    },
     get: (name: string) => registry.get(name),
     list: () => Array.from(registry.keys()),
     createProceduralClip: (id: string, root: Object3D | null): AnimationClip | null => {

@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AvatarCarousel from './AvatarCarousel';
 import { useSmythOSState, useSmythOSDispatch } from '../state/smythos/reducer';
 
 export default function EliteDeck() {
     const dispatch = useSmythOSDispatch();
+    const navigate = useNavigate();
     const activePanel = useSmythOSState().ui.currentPanel;
 
     return (
@@ -42,7 +44,7 @@ export default function EliteDeck() {
                 {/* Quick Access Tiles underneath the Carousel */}
                 <div className="w-full max-w-5xl mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <button
-                        onClick={() => dispatch({ type: "SET_UI", payload: { currentPanel: "forge" } })}
+                        onClick={() => navigate('/forge')}
                         className="group flex flex-col items-start text-left p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-orange-500/50 transition-all backdrop-blur-md"
                     >
                         <h3 className="text-lg font-bold text-white tracking-widest mb-2 group-hover:text-orange-400 transition-colors">THE FORGE</h3>

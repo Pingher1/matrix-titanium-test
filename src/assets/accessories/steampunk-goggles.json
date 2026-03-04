@@ -1,0 +1,26 @@
+{
+    "id": "steampunk-goggles",
+    "label": "Steampunk Goggles",
+    "modelPath": "/assets/models/accessories/steampunk-goggles.glb",
+    "attachBone": "Head",
+    "transform": {
+        "pos": [
+            0,
+            0.12,
+            0.05
+        ],
+        "rot": [
+            0,
+            0,
+            0
+        ],
+        "scale": [
+            0.95,
+            0.95,
+            0.95
+        ]
+    },
+    "animationTags": [
+        "idle-spin"
+    ]
+}

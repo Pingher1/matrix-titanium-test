@@ -18,7 +18,7 @@ const WorkstationLayout = () => {
             {/* TOP NAVIGATION BAR */}
             <div className="h-16 border-b border-white/10 bg-black/50 backdrop-blur-xl flex items-center justify-between px-6 shrink-0 z-50 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
                 <div className="flex items-center gap-4">
-                    <button onClick={() => navigate('/')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full backdrop-blur-md border border-white/5">
+                    <button onClick={() => navigate('/deck')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full backdrop-blur-md border border-white/5">
                         <ArrowLeft className="w-4 h-4" />
                         <span className="font-bold tracking-widest text-[10px] uppercase">Leave Forge</span>
                     </button>

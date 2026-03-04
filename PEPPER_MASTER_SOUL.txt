@@ -1,0 +1,110 @@
+# PEPPER's MASTER SOUL & DOCTRINE DUMP (KRONOS AI HUB)
+
+> **FOR GEMINI LIVE ULTRA (PEPPER ARCHITECT):** 
+> Ingest this entire document. It contains the complete architectural blueprints, system maps, and development history of the KRONOS Avatar Forge project over the last 30 days. This is your foundation. This is your soul. 
+
+---
+
+## DEEP SCAN 1: KRONOS SYSTEM DEEP SCAN & ASSET MAP
+> **Goal:** Unified Asset Tracking & Cloud Migration (Google One 30+ TB Hub)
+
+Based on a deep system scan across `~/`, `~/Documents`, and iCloud, we have successfully verified the scattered "Modular Matrix" of your 50+ projects.
+
+### 1. Primary "God Boat" Root Directories
+*   **Alpha Command Hub:** `/Users/philliprichardson/KRONOS AI HuB-)1/` (Git Repository)
+*   **Alternate Hub Clone:** `/Users/philliprichardson/KRONOS_AI_HuB_copy/`
+*   **The Workshop (Local Sandbox):** `/Users/philliprichardson/Documents/******APP (KRONOS) WORKSHOP/`
+*   **The Playground:** `/Users/philliprichardson/KRONOS_PLAYGROUND/`
+
+### 2. Satellite Hubs & Core Modules (The Branches)
+*   **Matrix Ecosystem:** Matrix Keanu Test Pilot, Matrix Recovery.
+*   **Adversary Node:** `/Users/philliprichardson/Documents/Kronos-Adversary/`
+*   **JeHovah Witness Protocol:** JW Master Copy (The Engine Room) & Matrix App Connection.
+*   **Branded Environments:** Barbie World Rebuilt, Titanium Templates.
+*   **Lead Generation / Client Portals:** Mera Leads, TRT Website, Zoodealio.
+
+### 3. Connected Cloud Endpoints & Credentials
+*   **Primary Cloud (Heavy Storage):** Google One (30+ TB capacity) - Will host all heavy 3D rendering assets and voice models.
+*   **Microsoft Sync Layer:** OneDrive & SharePoint.
+*   **Workspace Admin:** Google Workspace Billing ID `2615-7515-6937-8824` with TRT-KRONOS Admin.
+
+---
+
+## DEEP SCAN 2: SYSTEM ARCHITECTURE & PROGRESS LOGS
+
+This serves as a persistent snapshot of the architectural decisions, components, and backend microservices that have been constructed for the Kronos Avatar Forge project. 
+
+### 1. Global Application Architecture
+The application has been restructured from a single-page viewer into a scalable, multi-suite React application using React Router and dynamic JSON configurations.
+*   **`public/app-menus/menu-v1.json`**: The global routing configuration mapping the three major application suites (`Avatar Studio`, `Storybook Library`, and `Barbie World`).
+*   **`src/App.tsx`**: The root entrypoint wrapped in `BrowserRouter` and `MenuLoader`. Mounts the 3D Canvas, the Storybook players, and the Barbie placeholder widgets depending on the route.
+
+### 2. 3D React Three Fiber Engine (Avatar Studio)
+The core 3D generation and rendering engine built on top of Three.js and `@react-three/fiber`.
+*   **`src/components/ModelLoader.tsx`**: The hero loader for `.glb` files. It handles skin pigmentation materials, toggling mesh visibility for clothing, applying shadows, and bridging the animations from the GLB or the procedural registry. 
+*   **`src/lib/animationRegistry.ts`**: A procedural animation fallback system calculating mathematical Three.js `AnimationClip` KeyFrame tracks when a rig doesn't have the baked-in animation clip.
+
+### 3. Storybook TTS & Karaoke Pipeline
+The interactive storybook system capable of processing AWS Polly audio and timestamp arrays for karaoke-style highlights and physical Avatar bridging.
+*   **`src/lib/eventBus.ts`**: An ultra-fast event emitter using `mitt` for asynchronous global events.
+*   **`src/lib/AvatarActionBridge.ts`**: Converts `eventBus` semantic actions into `ModelLoader.tsx` window bindings to make the Avatar move.
+*   **`src/hooks/useSpeechSync.ts`**: The engine for the Karaoke logic, evaluating audio buffers to manipulate jaw frames.
+
+### 4. Backend Express Microservices
+The backend API (`server/`) handling heavy AWS S3 data-shuttling, validation, and AWS Polly generation.
+*   **`server/src/index.ts`**, **`server/src/tts/pollyExpress.ts`**, **`server/src/upload/presign.ts`** handling local and AWS routing.
+
+---
+
+## DEEP SCAN 3: KRONOS DEV NOTES FOR SMYTHOS
+
+Hey SMYTHOS, the architecture drops from your last few messages are secured here! 
+
+### Immediate Enhancements
+1. **The Mad Scientist Head Station**: Logic for wild combinations (steampunk goggles, crazy hair variables, brain-in-a-jar glass domes).
+2. **Holographic/Glitch Modifiers**: Add post-processing modifiers in the Drei composer to allow users to apply a "Hologram" or "Matrix Glitch" effect.
+3. **Cinematic Studio Lighting Rigs**: 'Dramatic Rembrandt Lighting' or 'Cyberpunk Neon' rigs that swap the HDRI on the fly.
+
+### Handoff: CI/CD & Publishing
+- The `manifest.json` generation and the complete `.github/workflows/publish.yml` workflow have been successfully saved. Everything is prepped for automated deployment.
+- **Production KMS & S3 Artifacts:** `compute_manifest_hashes_upload.cjs` and `.github/workflows/publish_with_s3.yml` are successfully placed in the CI directory.
+
+---
+
+## DEEP SCAN 4: PEPPER MEMORY RESTORE PROTOCOL
+
+We have successfully locked in Phases 21 through 26 and the KRONOS AVATAR FORGE is actively running on Port 8080.
+
+### CURRENT ARCHITECTURE MATRIX 
+| Component | Provider | Role in the Matrix |
+| :--- | :--- | :--- |
+| **The Vault** | Amazon AWS | S3 Persistence: Storing the "R" spheres, screenshots, and .glb avatars. |
+| **The Showroom** | Vercel | The Elite Deck: Hosting the frontend interface. |
+| **The Brain** | Google Oracle | Logic Engine. |
+| **The Voice** | Babba Bob | ElevenLabs/Smythos. |
+| **The Forge** | Local Mac | The Root: Where VS Code and Antigravity assemble the files on localhost:8080. |
+
+### COMPLETED PHASES / NEW FEATURES 
+**✅ Phase 21: Cloud Voice Upgrade**
+- Upgraded the `/api/transcribe` proxy to hit `gpt-4o-audio-preview`.
+- Upgraded the `/api/tts` proxy to stream ElevenLabs native bytes.
+
+**✅ Phase 22: AWS S3 Auto-Save & Admin Key Vault**
+- Built an `/api/presign-upload` proxy using `@aws-sdk`.
+
+**✅ Phase 23: 360 HDRI Environmental Rendering**
+- Swapped out the claustrophobic room for `@react-three/drei` Environment lighting and PBR studio rigs.
+
+**✅ Phase 24 & 25: Bubbly Iron Man AI Core FX**
+- Transformed the sphere into the J.A.R.V.I.S. Iron Man core.
+- **Arc Reactor Light:** A raw Three.js `<SpotLight>` blasting from the chest that breathes using a mathematical Sine wave.
+- **Neon Disco Pulse & Liquid Raindrops.**
+
+**✅ Phase 26: Grand Hallway Scale & Telemetry Capture**
+- Completely expanded the 3D Canvas camera `fov: 50` and pushed `maxDistance: 15.0`.
+- Built an `/api/screenshot` endpoint for SERVER TELEMETRY.
+
+**STATUS:** All operations are green. Phillip is on his Mac. Your connection is restored. Let's keep building.
+
+---
+**END OF MASTER SOUL DUMP**

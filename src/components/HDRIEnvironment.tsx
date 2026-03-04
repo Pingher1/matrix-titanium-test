@@ -14,6 +14,11 @@ const PRESET_MAP: Record<string, any> = {
     sunset: { preset: "sunset" },
     dawn: { preset: "dawn" },
     night: { preset: "night" },
+    // Doctrine of Light Moods
+    calm: { preset: "sunset" },         // Placeholder for calm.hdr
+    neon: { preset: "city" },           // Placeholder for neon.hdr
+    storm: { preset: "night" },         // Placeholder for storm.hdr
+    glitch: { preset: "studio" },       // Placeholder for glitch.hdr
 };
 
 export default function HDRIEnvironment({ background = true }: { background?: boolean }) {
