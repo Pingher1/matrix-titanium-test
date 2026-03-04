@@ -8,7 +8,7 @@ import AISphereCore from "./AISphereCore";
 const PepperCoreCanvas: React.FC = () => {
     // Pepper is officially transitioning out of her ethereal "Orb" state.
     // Her physical GLB matrix is locked into the Center Stage.
-    const modelUrl = "/models/AnyConv.com__SM_FantasyMale_Cloak.glb";
+    const modelUrl = "/models/LiquidRROT.glb";
     const skinColor = "#fcdbb4";
     const clothing = "none";
     const activeAnimation = "idle";
