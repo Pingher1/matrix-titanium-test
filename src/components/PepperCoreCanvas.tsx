@@ -6,9 +6,9 @@ import HDRIEnvironment from "./HDRIEnvironment";
 import AISphereCore from "./AISphereCore";
 
 const PepperCoreCanvas: React.FC = () => {
-    // Pepper is currently in her "Orb" ethereal state, as no physical GLB has been confirmed.
-    // If a model is injected later, we hardcode her visual state here so the Forge cannot mutate her.
-    const modelUrl = ""; // E.g., "/models/pepper.glb"
+    // Pepper is officially transitioning out of her ethereal "Orb" state.
+    // Her physical GLB matrix is locked into the Center Stage.
+    const modelUrl = "/models/AnyConv.com__SM_FantasyMale_Cloak.glb";
     const skinColor = "#fcdbb4";
     const clothing = "none";
     const activeAnimation = "idle";
