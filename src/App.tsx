@@ -6,6 +6,7 @@ import { AppTopNav } from './components/AppTopNav';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { SmythOSProvider } from './state/smythos/reducer';
 import PortalTransition from './components/PortalTransition';
+import TransmissionProtocol from './components/TransmissionProtocol';
 
 // Lazy loading the massive suites to optimize bundle
 // The massive AvatarDashboard has been exterminated.
@@ -93,6 +94,7 @@ function App() {
   if (isGateway) {
     return (
       <>
+        <TransmissionProtocol />
         <Suspense fallback={<div className="h-screen w-screen bg-black flex items-center justify-center"><div className="text-[#00ff41] font-mono animate-pulse">BOOTING KRONOS NODE...</div></div>}>
           <LandingGateway />
         </Suspense>
@@ -106,6 +108,7 @@ function App() {
   if (isPilotGateway) {
     return (
       <>
+        <TransmissionProtocol />
         <Suspense fallback={<div className="h-screen w-screen bg-black flex items-center justify-center"><div className="text-[#00ff41] font-mono animate-pulse">BOOTING TEST PILOT GATEWAY...</div></div>}>
           <TestPilotGateway />
         </Suspense>
@@ -121,6 +124,7 @@ function App() {
     <BrowserRouter>
       <MenuLoader>
         <SmythOSProvider>
+          <TransmissionProtocol />
           <Suspense fallback={<div className="h-screen w-screen bg-black flex items-center justify-center"><div className="text-[#00ff41] font-mono animate-pulse">BOOTING FORGE SUITES...</div></div>}>
             <GlobalServerTerminal />
             <AppRoutes />
