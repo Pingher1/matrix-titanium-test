@@ -66,8 +66,18 @@ const TestPilotGateway: React.FC = () => {
 
                     {/* Placeholder Active Venue Icons (Apple Menu Style) */}
                     <div className="flex items-center gap-2 pl-4 border-l border-white/10">
-                        <div className="px-3 py-1 bg-white/5 hover:bg-white/10 cursor-pointer rounded text-[10px] font-bold tracking-widest text-[#00ff41] transition-colors border border-transparent hover:border-white/10">ALPHA GATEWAY</div>
-                        <div className="px-3 py-1 bg-transparent hover:bg-white/10 cursor-pointer rounded text-[10px] font-bold tracking-widest text-gray-500 hover:text-white transition-colors border border-transparent hover:border-white/10">WORKSTATION</div>
+                        <button
+                            onClick={() => window.location.href = '/pilot'}
+                            className="px-3 py-1 bg-white/5 hover:bg-white/10 cursor-pointer rounded text-[10px] font-bold tracking-widest text-[#00ff41] transition-colors border border-transparent hover:border-white/10"
+                        >
+                            ALPHA GATEWAY
+                        </button>
+                        <button
+                            onClick={() => window.location.href = '/forge'}
+                            className="px-3 py-1 bg-transparent hover:bg-white/10 cursor-pointer rounded text-[10px] font-bold tracking-widest text-gray-500 hover:text-white transition-colors border border-transparent hover:border-white/10"
+                        >
+                            WORKSTATION
+                        </button>
                     </div>
                 </div>
 
@@ -107,12 +117,12 @@ const TestPilotGateway: React.FC = () => {
                 </div>
 
                 {/* WEST WALL TILE (Air Element): NEURAL TERMINAL DRAWER */}
-                {/* Minimalist Side Trigger Button */}
+                {/* Minimalist Side Trigger Button - CAMOUFLAGED WITH GLOWING ICON */}
                 <button
                     onClick={() => setIsWestMenuOpen(!isWestMenuOpen)}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/80 p-4 border border-l-0 border-[#00ff41]/50 rounded-r-2xl text-[#00ff41] hover:bg-[#00ff41]/20 transition-all z-50 group shadow-[0_0_30px_rgba(0,255,65,0.2)]"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 bg-transparent p-4 border border-transparent hover:border-[#00ff41]/20 rounded-r-2xl text-[#00ff41] hover:bg-[#00ff41]/10 transition-all z-50 group shadow-none hover:shadow-[0_0_30px_rgba(0,255,65,0.1)] backdrop-blur-sm"
                 >
-                    <Wind className="w-6 h-6 group-hover:scale-110 transition-transform opacity-70 group-hover:opacity-100" />
+                    <Wind className="w-6 h-6 group-hover:scale-110 transition-transform opacity-100 drop-shadow-[0_0_8px_rgba(0,255,65,0.8)]" />
                 </button>
 
                 <AnimatePresence>

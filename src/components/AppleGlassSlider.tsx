@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Box, Sparkles, BookOpen, Plus, Droplets } from 'lucide-react';
+import { Box, Sparkles, BookOpen, Plus, Droplets, ShieldCheck, Cpu, Database } from 'lucide-react';
 
 interface EcosystemNode {
     id: string;
@@ -50,6 +50,33 @@ const NODES: EcosystemNode[] = [
         status: 'STANDBY'
     },
     {
+        id: 'admin',
+        title: 'ADMIN VAULT',
+        description: 'Global Permissions, API Keys, and Organizational Access.',
+        icon: <ShieldCheck className="w-8 h-8" />,
+        color: '#ff2a2a',
+        route: '/admin',
+        status: 'ONLINE'
+    },
+    {
+        id: 'kronos_architect',
+        title: 'KRONOS ASSISTANT',
+        description: 'The internal KRONOS AI Code Architect Interface.',
+        icon: <Cpu className="w-8 h-8" />,
+        color: '#008f11',
+        route: '/kronos',
+        status: 'ONLINE'
+    },
+    {
+        id: 'modules_publisher',
+        title: 'MODULES PUBLISHER',
+        description: 'Publish and manage Master Code Modules.',
+        icon: <Database className="w-8 h-8" />,
+        color: '#0055ff',
+        route: '/admin/modules',
+        status: 'ONLINE'
+    },
+    {
         id: 'tutorial',
         title: 'TUTORIAL EDITOR',
         description: 'Native video production and screen recording suite.',
@@ -81,12 +108,12 @@ const AppleGlassSlider: React.FC<AppleGlassSliderProps> = ({ onDeployTutorialEdi
     return (
         <div className="absolute bottom-0 left-0 w-full flex flex-col items-center pointer-events-none z-50">
 
-            {/* SOUTH WALL TILE (Water Element): ECOSYSTEM DRAWER TRIGGER */}
+            {/* SOUTH WALL TILE (Water Element): ECOSYSTEM DRAWER TRIGGER - CAMOUFLAGED WITH GLOWING ICON */}
             <button
                 onClick={() => setIsVisible(!isVisible)}
-                className="pointer-events-auto absolute bottom-0 left-1/2 -translate-x-1/2 bg-black/80 p-4 border border-b-0 border-[#00ff41]/50 rounded-t-2xl text-[#00ff41] hover:bg-[#00ff41]/20 transition-all z-50 group shadow-[0_0_30px_rgba(0,255,65,0.2)]"
+                className="pointer-events-auto absolute bottom-0 left-1/2 -translate-x-1/2 bg-transparent p-4 border border-transparent hover:border-[#00ff41]/20 rounded-t-2xl text-[#00ff41] hover:bg-[#00ff41]/10 transition-all z-50 group shadow-none hover:shadow-[0_-5px_30px_rgba(0,255,65,0.1)] backdrop-blur-sm"
             >
-                <Droplets className="w-6 h-6 group-hover:scale-110 transition-transform opacity-70 group-hover:opacity-100" />
+                <Droplets className="w-6 h-6 group-hover:scale-110 transition-transform opacity-100 drop-shadow-[0_0_8px_rgba(0,255,65,0.8)]" />
             </button>
 
             <AnimatePresence>
