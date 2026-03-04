@@ -3,6 +3,7 @@ import DigitalRain from './DigitalRain';
 import { Terminal, Activity, Wifi, ShieldCheck, Cpu, Wind } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AppleGlassSlider from './AppleGlassSlider';
+import TutorialEditor from './TutorialEditor';
 
 const TestPilotGateway: React.FC = () => {
     // Basic terminal state to simulate an AI chat UI and hold transcripts
@@ -12,6 +13,7 @@ const TestPilotGateway: React.FC = () => {
     ]);
     const [input, setInput] = useState('');
     const [isWestMenuOpen, setIsWestMenuOpen] = useState(false);
+    const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
     const handleSend = async () => {
         if (!input.trim()) return;
@@ -53,35 +55,40 @@ const TestPilotGateway: React.FC = () => {
             {/* 1. Background Layer: Classic Green Matrix Digital Rain */}
             <DigitalRain speed={1.5} density={0.92} color="#00ff41" />
 
-            <div className="relative z-20 w-full h-full p-6 flex flex-col gap-6">
-
-                {/* THE NORTHSTAR BAR: Top Master Command & Telemetry */}
-                <div className="w-full h-14 bg-black/40 backdrop-blur-xl border border-[#00ff41]/30 rounded-full flex items-center justify-between px-6 shadow-[0_0_30px_rgba(0,255,65,0.15)] shrink-0 z-50">
-                    <div className="flex items-center gap-4">
-                        <div className="w-3 h-3 rounded-full bg-[#00ff41] animate-pulse shadow-[0_0_10px_#00ff41]" />
-                        <h1 className="font-black tracking-[0.3em] text-[#00ff41] text-sm">KRONOS COMMAND CENTER</h1>
+            {/* THE NORTHSTAR BAR: Top Master Command & Telemetry (LOCKED LIKE MAC MENU BAR) */}
+            <div className="absolute top-0 left-0 w-full h-[50px] bg-black/90 backdrop-blur-2xl border-b border-[#00ff41]/30 flex items-center justify-between px-6 shadow-[0_5px_30px_rgba(0,0,0,0.8)] z-[100]">
+                {/* Far West: Logo and Venue Icons */}
+                <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#00ff41] animate-pulse shadow-[0_0_10px_#00ff41]" />
+                        <h1 className="font-black tracking-[0.2em] text-[#00ff41] text-xs">KRONOS</h1>
                     </div>
 
-                    <div className="flex items-center gap-8">
-                        <div className="flex items-center gap-2 text-gray-400 hover:text-[#00ff41] transition-colors cursor-default">
-                            <Activity className="w-4 h-4" />
-                            <span className="font-mono text-xs font-bold tracking-widest">HEALTH: 100%</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-400 hover:text-[#00ff41] transition-colors cursor-default">
-                            <Wifi className="w-4 h-4" />
-                            <span className="font-mono text-xs font-bold tracking-widest">LATENCY: 0.02ms</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-400 hover:text-[#00ff41] transition-colors cursor-default">
-                            <Cpu className="w-4 h-4" />
-                            <span className="font-mono text-xs font-bold tracking-widest">NODES: 3</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-[#00ff41] bg-[#00ff41]/10 px-3 py-1 rounded-full border border-[#00ff41]/50 cursor-pointer hover:bg-[#00ff41]/20 transition-all">
-                            <ShieldCheck className="w-4 h-4" />
-                            <span className="font-mono text-[10px] font-black tracking-widest uppercase">Encryption Active</span>
-                        </div>
+                    {/* Placeholder Active Venue Icons (Apple Menu Style) */}
+                    <div className="flex items-center gap-2 pl-4 border-l border-white/10">
+                        <div className="px-3 py-1 bg-white/5 hover:bg-white/10 cursor-pointer rounded text-[10px] font-bold tracking-widest text-[#00ff41] transition-colors border border-transparent hover:border-white/10">ALPHA GATEWAY</div>
+                        <div className="px-3 py-1 bg-transparent hover:bg-white/10 cursor-pointer rounded text-[10px] font-bold tracking-widest text-gray-500 hover:text-white transition-colors border border-transparent hover:border-white/10">WORKSTATION</div>
                     </div>
                 </div>
 
+                {/* Far East: Global Stats */}
+                <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-2 text-gray-400 hover:text-[#00ff41] transition-colors cursor-default">
+                        <Activity className="w-3.5 h-3.5" />
+                        <span className="font-mono text-[10px] font-bold tracking-widest">HLTH: 100%</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-400 hover:text-[#00ff41] transition-colors cursor-default">
+                        <Wifi className="w-3.5 h-3.5" />
+                        <span className="font-mono text-[10px] font-bold tracking-widest">LAT: 0.02ms</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[#00ff41] bg-[#00ff41]/10 px-3 py-1 rounded border border-[#00ff41]/50 cursor-pointer hover:bg-[#00ff41]/20 transition-all">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        <span className="font-mono text-[9px] font-black tracking-widest uppercase">ENCRYPTED</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="relative z-20 w-full h-full pt-[50px] flex flex-col">
                 {/* THE CLEAN CENTER: Pepper Core Visualization */}
                 <div className="flex-1 h-full flex flex-col items-center justify-center relative mt-16 z-10 w-full pointer-events-none">
                     {/* Glowing Avatar */}
@@ -159,8 +166,15 @@ const TestPilotGateway: React.FC = () => {
 
                 {/* SOUTH WALL TILE: The Apple Glass Ecosystem Slider (Water Element is inside the component) */}
                 <div className="absolute bottom-0 left-0 w-full z-40 pointer-events-none">
-                    <AppleGlassSlider />
+                    <AppleGlassSlider onDeployTutorialEditor={() => setIsTutorialOpen(true)} />
                 </div>
+
+                {/* THE TUTORIAL EDITOR MODULE OVERRIDE */}
+                <AnimatePresence>
+                    {isTutorialOpen && (
+                        <TutorialEditor onClose={() => setIsTutorialOpen(false)} />
+                    )}
+                </AnimatePresence>
 
             </div>
 

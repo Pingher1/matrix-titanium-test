@@ -7,6 +7,10 @@
 }
 
 @layer base {
+  html, body {
+    overscroll-behavior: none;
+    overflow-x: hidden;
+  }
   body {
     @apply bg-[#050505] text-green-500 font-mono;
   }

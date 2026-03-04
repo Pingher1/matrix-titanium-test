@@ -39,10 +39,23 @@ const NODES: EcosystemNode[] = [
         color: '#ffaa00',
         route: '/stories',
         status: 'STANDBY'
+    },
+    {
+        id: 'tutorial',
+        title: 'TUTORIAL EDITOR',
+        description: 'Native video production and screen recording suite.',
+        icon: <Box className="w-8 h-8" />, // Video icon unavailable in current Lucide import, using fallback Box
+        color: '#ff2a2a',
+        route: '#',
+        status: 'ONLINE'
     }
 ];
 
-const AppleGlassSlider: React.FC = () => {
+interface AppleGlassSliderProps {
+    onDeployTutorialEditor?: () => void;
+}
+
+const AppleGlassSlider: React.FC<AppleGlassSliderProps> = ({ onDeployTutorialEditor }) => {
     const [isVisible, setIsVisible] = useState(true);
 
     // Auto-hide after 15 seconds logic
@@ -99,7 +112,13 @@ const AppleGlassSlider: React.FC = () => {
                                             key={node.id}
                                             whileHover={{ scale: 1.02, y: -5 }}
                                             whileTap={{ scale: 0.98 }}
-                                            onClick={() => window.location.href = node.route}
+                                            onClick={() => {
+                                                if (node.id === 'tutorial' && onDeployTutorialEditor) {
+                                                    onDeployTutorialEditor();
+                                                } else {
+                                                    window.location.href = node.route;
+                                                }
+                                            }}
                                             className="snap-center relative text-left outline-none"
                                             style={{ '--node-color': node.color } as React.CSSProperties}
                                         >
