@@ -69,13 +69,13 @@ const GlobalServerTerminal: React.FC = () => {
 
     return (
         <>
-            {/* The East Wall Center Toggle Button (Earth Element) */}
+            {/* The East Wall Center Toggle Button (Earth Element) - CAMOUFLAGED */}
             <div className="fixed right-0 top-1/2 -translate-y-1/2 z-[99999]">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="p-4 bg-black/80 border border-[#00ff41]/50 border-r-0 rounded-l-2xl backdrop-blur-xl shadow-[-5px_0_30px_rgba(0,255,65,0.2)] hover:bg-[#00ff41]/20 transition-all flex flex-col gap-1 group"
+                    className="p-4 bg-transparent border-transparent hover:border-[#00ff41]/20 border-r-0 rounded-l-2xl backdrop-blur-sm shadow-none hover:shadow-[-5px_0_30px_rgba(0,255,65,0.1)] hover:bg-[#00ff41]/10 transition-all flex flex-col gap-1 group"
                 >
-                    <Mountain className="w-6 h-6 text-[#00ff41] group-hover:scale-110 transition-transform opacity-70 group-hover:opacity-100" />
+                    <Mountain className="w-6 h-6 text-[#00ff41] group-hover:scale-110 transition-transform opacity-10 md:opacity-5 group-hover:opacity-100" />
                 </button>
             </div>
 
